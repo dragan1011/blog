@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\RoleManagementController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [BlogController::class, 'adminIndex'])->name('dashboard');  // Show blog list on the dashboard
@@ -14,7 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('admin')->name('admin.')->group(function() {
+    Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/blogs', [BlogController::class, 'adminIndex'])->name('blogs.index');
         Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
         Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
@@ -24,23 +23,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-/* Route::middleware('role:superadmin,admin')->group(function () {
-    Route::get('/role-management', [RoleManagementController::class, 'index'])->name('role-management.index');
-    Route::get('/role-management/{user}', [RoleManagementController::class, 'edit'])->name('role-management.edit');
-    Route::post('/role-management/{user}', [RoleManagementController::class, 'updateRole'])->name('role-management.update');
-
-}); */
-
-
-
 Route::get('/', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blogs.show');
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-    ->name('login');
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-Route::get('/register', [RegisteredUserController::class, 'create'])
-    ->name('register');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 require __DIR__.'/auth.php';

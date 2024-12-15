@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
@@ -7,56 +6,63 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    public function __construct()
+    public function index(Request $request)
     {
-        // Apply 'auth' middleware only to routes that require the user to be logged in
-        $this->middleware('auth')->only([
-            'create', 'store', 'edit', 'update', 'destroy'
-        ]);
+        $query = Blog::query();
 
-        // Apply admin check only for admin-specific routes
-        $this->middleware(function ($request, $next) {
-            if (auth()->check() && auth()->user()->role !== 'admin') {
-                return redirect('/'); // Redirect non-admin users
-            }
-            return $next($request);
-        })->only([
-            'adminIndex', 'create', 'store', 'edit', 'update', 'destroy'
-        ]);
-    }
+        if ($request->has('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('content', 'like', '%' . $request->search . '%');
+        }
 
-    // User side: Show all blogs (publicly accessible)
-    public function index()
-    {
-        $blogs = Blog::all();
+        $blogs = $query->get();
+
         return view('blogs.index', compact('blogs'));
     }
-    
-     public function show($id)
-    {
-        // Retrieve the blog post by ID
-        $blog = Blog::findOrFail($id);
 
-        // Return the view with the blog post
+    public function show($id)
+    {
+        $blog = Blog::findOrFail($id);
         return view('blogs.show', compact('blog'));
     }
 
-    // Admin side: List all blogs
     public function adminIndex()
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         $blogs = Blog::all();
         return view('admin.blogs.index', compact('blogs'));
     }
 
-    // Admin side: Show create form
     public function create()
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         return view('admin.blogs.create');
     }
 
-    // Admin side: Store new blog
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -66,15 +72,29 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.index');
     }
 
-    // Admin side: Show edit form
     public function edit(Blog $blog)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         return view('admin.blogs.edit', compact('blog'));
     }
 
-    // Admin side: Update blog
     public function update(Request $request, Blog $blog)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -84,9 +104,16 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.index');
     }
 
-    // Admin side: Delete blog
     public function destroy(Blog $blog)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'admin') {
+            return redirect('/');
+        }
+
         $blog->delete();
         return redirect()->route('admin.blogs.index');
     }

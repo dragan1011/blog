@@ -12,17 +12,14 @@
                 </div>
 
                 <div class="card-body">
-                    <!-- Update Profile Information Form -->
                     <div class="mb-4">
                         @include('profile.partials.update-profile-information-form')
                     </div>
 
-                    <!-- Update Password Form -->
                     <div class="mb-4">
                         @include('profile.partials.update-password-form')
                     </div>
 
-                    <!-- Delete User Form -->
                     <div>
                         @include('profile.partials.delete-user-form')
                     </div>

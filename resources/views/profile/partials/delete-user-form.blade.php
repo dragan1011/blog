@@ -9,12 +9,10 @@
         </p>
     </header>
 
-    <!-- Delete Account Button -->
     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmUserDeletionModal">
         {{ __('Delete Account') }}
     </button>
 
-    <!-- Modal -->
     <div class="modal fade" id="confirmUserDeletionModal" tabindex="-1" aria-labelledby="confirmUserDeletionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

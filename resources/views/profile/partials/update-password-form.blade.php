@@ -13,7 +13,6 @@
         @csrf
         @method('put')
 
-        <!-- Current Password -->
         <div class="mb-3">
             <label for="update_password_current_password" class="form-label">{{ __('Current Password') }}</label>
             <input
@@ -31,7 +30,6 @@
             @endif
         </div>
 
-        <!-- New Password -->
         <div class="mb-3">
             <label for="update_password_password" class="form-label">{{ __('New Password') }}</label>
             <input
@@ -49,7 +47,6 @@
             @endif
         </div>
 
-        <!-- Confirm Password -->
         <div class="mb-3">
             <label for="update_password_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
             <input
@@ -67,7 +64,6 @@
             @endif
         </div>
 
-        <!-- Save Button -->
         <div class="d-flex align-items-center gap-4">
             <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
 

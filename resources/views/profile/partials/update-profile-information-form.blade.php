@@ -9,17 +9,14 @@
         </p>
     </header>
 
-    <!-- Verification Form -->
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    <!-- Profile Update Form -->
     <form method="post" action="{{ route('profile.update') }}" class="mt-4">
         @csrf
         @method('patch')
 
-        <!-- Name Field -->
         <div class="mb-3">
             <label for="name" class="form-label">{{ __('Name') }}</label>
             <input
@@ -39,7 +36,6 @@
             @endif
         </div>
 
-        <!-- Email Field -->
         <div class="mb-3">
             <label for="email" class="form-label">{{ __('Email') }}</label>
             <input
@@ -75,7 +71,6 @@
             @endif
         </div>
 
-        <!-- Save Button -->
         <div class="d-flex align-items-center gap-4">
             <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
 

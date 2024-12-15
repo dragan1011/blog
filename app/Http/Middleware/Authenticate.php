@@ -22,6 +22,6 @@ class Authenticate
             return $next($request);
         }
 
-        return redirect()->route('login'); // Redirect if not authenticated
+        return redirect()->route('login');
     }
 }
